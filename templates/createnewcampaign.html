@@ -32,7 +32,7 @@
         <div class="col-md-3"></div>        
         <!-- create a campaign -->
         <div class="col-md-6 panel panel-default"> 
-            <form action="/CreateNewCampaign" method="POST">
+            <form action="/createNewCampaign" method="POST">
             
                 <label>Created by User - {{ current_user.name }}</label>
                 <input type="number" name="userid" class="form-control" value="{{ current_user.id }}">

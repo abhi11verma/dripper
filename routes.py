@@ -81,7 +81,27 @@ class User(db.Model, UserMixin):
     avtar = db.Column(db.String(200))
     tokens = db.Column(db.Text)
     account_created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+    
+class Campaign(db.Model):
+    __tablename__ = "campaign"
+    campaign_id = db.Column(db.Integer, primary_key=True)
+    userid = db.Column(db.Integer, nullable = False)
+    campaign_title = db.Column(db.String(140))
+    campaign_stage = db.Column(db.Integer)
+    email_subj = db.Column(db.String(250))
+    email_body = db.Column(db.Text)
+    email_id = db.Column(db.String(100))
+    receipent_name = db.Column(db.String(100))
+    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
 
+    def __init__(self, userid,campaign_title,campaign_stage,email_subj, email_body, email_id, receipent_name):
+        self.userid = userid
+        self.campaign_title = campaign_title
+        self.campaign_stage = campaign_stage
+        self.email_subj = email_subj
+        self.email_body = email_body
+        self.email_id = email_id
+        self.receipent_name = receipent_name
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -156,9 +176,9 @@ def callback():
 @app.route('/createNewCampaign', methods = ["GET","POST"])
 def CreateNewCampaign():
     if request.method == "POST":
-        # campaign = Campaign(request.form['userid'],request.form['campaign_title'], request.form['campaign_stages'],request.form['email_subj'],request.form['email_body'],request.form['email_id'],request.form['receipent_name'])
-        # db.session.add(campaign)
-        # db.session.commit()
+        campaign = Campaign(request.form['userid'],request.form['campaign_title'], request.form['campaign_stages'],request.form['email_subj'],request.form['email_body'],request.form['email_id'],request.form['receipent_name'])
+        db.session.add(campaign)
+        db.session.commit()
         return "Campaign Created"
     elif request.method == "GET":
        return render_template('createnewcampaign.html')
