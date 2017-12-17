@@ -1,15 +1,21 @@
-from flask import Flask , render_template
+import os
+import json
+import datetime
 
 from flask import Flask, url_for, redirect, \
     render_template, session, request
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_required, login_user, \
     logout_user, current_user, UserMixin
-    
 from requests_oauthlib import OAuth2Session
+
 from requests.exceptions import HTTPError
-import os
-from model import db
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+import base64   
+from apiclient import errors
+from apiclient.discovery import build
+
 
 
 class Auth:
@@ -21,6 +27,7 @@ class Auth:
     TOKEN_URI = 'https://accounts.google.com/o/oauth2/token'
     USER_INFO = 'https://www.googleapis.com/userinfo/v2/me'
     SCOPE = ['profile', 'email']
+
 
 
 def get_google_auth(state=None, token=None):
@@ -44,7 +51,7 @@ class Config:
 class DevConfig(Config):
     """Dev config"""
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@localhost/drip'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@localhost/dripper'
 
 config = {
     "dev": DevConfig,
@@ -54,13 +61,32 @@ config = {
 app = Flask(__name__)
 
 app.config.from_object(config['dev'])
+db = SQLAlchemy(app)
 
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
 login_manager.session_protection = "strong"
 
+""" DB Models """
+class User(db.Model, UserMixin):
+    __tablename__ = "users"
+    userid = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    name = db.Column(db.String(100), nullable=True)
+    avtar = db.Column(db.String(200))
+    tokens = db.Column(db.Text)
+    account_created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+#================routes=========================
 
 @app.route('/')
+@login_required #if user is not logged in go to login page
 def index():
     return render_template('index.html')
 
@@ -79,6 +105,47 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route('/loginsuccess')
+def callback():
+    if current_user is not None and current_user.is_authenticated:
+        return redirect(url_for('index'))
+    if 'error' in request.args:
+        if request.args.get('error') == 'access_denied':
+            return 'You denied access.'
+        return 'Error encountered.'
+    if 'code' not in request.args and 'state' not in request.args:
+        return redirect(url_for('login'))
+    else:
+        google = get_google_auth(state = session['oauth_state'])
+        try:
+            token = google.fetch_token(
+                Auth.TOKEN_URI,
+                client_secret=Auth.CLIENT_SECRET,
+                authorization_response=request.url)
+        except HTTPError:
+            return 'HTTPError occurred.'
+        google = get_google_auth(token=token)
+        resp = google.get(Auth.USER_INFO)
+        if resp.status_code == 200:
+            user_data = resp.json()
+            email = user_data['email']
+
+            #Check if user already exist using email id
+            user = User.query.filter_by(email=email).first()
+            if user is None:
+                user = User()
+                user.email = email
+            user.name = user_data['name']
+            print(token)
+            user.tokens = json.dumps(token)
+            user.avatar = user_data['picture']
+            db.session.add(user)
+            db.session.commit()
+            login_user(user)
+            return redirect(url_for('index'))
+        return 'Could not fetch your information.'
 
 if __name__ == "__main__":
     app.run(debug=True)
