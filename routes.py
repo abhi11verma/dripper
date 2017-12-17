@@ -75,7 +75,7 @@ login_manager.session_protection = "strong"
 """ DB Models """
 class User(db.Model, UserMixin):
     __tablename__ = "users"
-    userid = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
     name = db.Column(db.String(100), nullable=True)
     avtar = db.Column(db.String(200))
