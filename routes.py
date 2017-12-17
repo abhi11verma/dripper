@@ -15,7 +15,7 @@ from email.mime.base import MIMEBase
 import base64   
 from apiclient import errors
 from apiclient.discovery import build
-
+from emailscript import emailsend
 
 
 class Auth:
@@ -180,10 +180,25 @@ def CreateNewCampaign():
         campaign = Campaign(request.form['userid'],request.form['campaign_title'], request.form['campaign_stages'],request.form['email_subj'],request.form['email_body'],request.form['email_id'],request.form['receipent_name'])
         db.session.add(campaign)
         db.session.commit()
-        return "Campaign Created"
+        return redirect(url_for('index'))
     elif request.method == "GET":
        return render_template('createnewcampaign.html')
-    
+
+
+@app.route('/sendmail')
+def sendmail():
+    campaignlist = Campaign.query.filter_by(userid = current_user.id ).all()
+    userdetail = User.query.filter_by(id = current_user.id).first()
+    senderemail = userdetail.email
+    print ("sending email from:"+senderemail)
+    for campaign in campaignlist:
+        print ("campaign:"+campaign.email_body)
+        sendto = campaign.email_id
+        emailbody = campaign.email_body
+        emailsubject = campaign.email_subj
+        emailsend( senderemail, sendto, emailsubject, emailbody )
+        print ("sending email")
+    return "emailsent"
 
 if __name__ == "__main__":
     app.run(debug=True)
