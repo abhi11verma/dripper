@@ -145,7 +145,7 @@ def callback():
             user.name = user_data['name']
             print(token)
             user.tokens = json.dumps(token)
-            user.avatar = user_data['picture']
+            user.avtar = user_data['picture']
             db.session.add(user)
             db.session.commit()
             login_user(user)
