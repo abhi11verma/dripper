@@ -13,6 +13,9 @@
                   <div class="navbar-header">
                     <a class="navbar-brand" href="#">Create Drip</a>
                   </div>
+                  <ul class="nav navbar-nav">
+                    <li><a href="/createNewCampaign">Create Campaign</a></li>
+                  </ul>
                   {%- if current_user.is_authenticated -%}
                   <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">{{current_user.name}}</a></li>

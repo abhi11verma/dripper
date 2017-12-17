@@ -152,6 +152,18 @@ def callback():
             return redirect(url_for('index'))
         return 'Could not fetch your information.'
 
+
+@app.route('/CreateNewCampaign', methods = ["GET","POST"])
+def CreateNewCampaign():
+    if request.method == "POST":
+        # campaign = Campaign(request.form['userid'],request.form['campaign_title'], request.form['campaign_stages'],request.form['email_subj'],request.form['email_body'],request.form['email_id'],request.form['receipent_name'])
+        # db.session.add(campaign)
+        # db.session.commit()
+        return "Campaign Created"
+    elif request.method == "GET":
+       return render_template('createnewcampaign.html')
+    
+
 if __name__ == "__main__":
     app.run(debug=True)
 
