@@ -51,7 +51,7 @@ def get_credentials(userfilename): # Gets valid user credentials from disk.
             print (credentials)
             print (type(credentials))
         else: # Needed only for compatibility with Python 2.6
-            credentials = tools.run(flow, store)
+            credentials = tools.run_flow(flow, store)
         print('Storing credentials to ' + credential_path)
     return credentials
 
