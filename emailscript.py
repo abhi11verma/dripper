@@ -20,8 +20,8 @@ APPLICATION_NAME = 'drip'
 # try:
 #     import argparse
 #     flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
-# except ImportError:
-#     flags = None
+# except ImportError: 
+flags = None
 
 def SendMessage(service, user_id, message): # Send an email message.
     try:
