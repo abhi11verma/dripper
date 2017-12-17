@@ -16,7 +16,7 @@
                   {%- if current_user.is_authenticated -%}
                   <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">{{current_user.name}}</a></li>
-                    <li><a href="{{url_for('logout')}}"><img src="{{current_user.avatar}}?sz=20" width="20" height="20" alt="{{current_user.name}}">Logout</a></li>
+                    <li><a href="{{url_for('logout')}}"><img src="{{current_user.avtar}}?sz=20" width="20" height="20" alt="{{current_user.name}}">Logout</a></li>
                     
                   </ul>
                 </div>
