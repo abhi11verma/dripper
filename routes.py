@@ -22,7 +22,7 @@ class Auth:
     """Google Project Credentials"""
     CLIENT_ID = ('277221696598-s7qbeuqfpj9u0ghkc0tqd2v3t23ksfcl.apps.googleusercontent.com')
     CLIENT_SECRET = 'TYrqMTwgCoH-1fJLRBFXAtix'
-    REDIRECT_URI = 'https://127.0.0.1:5000/loginsuccess'
+    REDIRECT_URI = 'https://still-tundra-82049.herokuapp.com/loginsuccess'
     AUTH_URI = 'https://accounts.google.com/o/oauth2/auth'
     TOKEN_URI = 'https://accounts.google.com/o/oauth2/token'
     USER_INFO = 'https://www.googleapis.com/userinfo/v2/me'
