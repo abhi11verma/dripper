@@ -52,8 +52,12 @@ class DevConfig(Config):
     """Dev config"""
     DEBUG = True
     #SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:password@localhost/dripper'
-    SQLALCHEMY_DATABASE_URI = 'postgresql://xvnedalyoohnpo:5db0f5db98186e38cd15f8d46396141a152d3795a26bb3931e9b1026a6a8e38b@ec2-54-235-244-185.compute-1.amazonaws.com/d4pn014537djvi
-'
+    host = "ec2-54-235-244-185.compute-1.amazonaws.com
+"
+    user = "xvnedalyoohnpo"
+    password = "5db0f5db98186e38cd15f8d46396141a152d3795a26bb3931e9b1026a6a8e38b"
+    database = "d4pn014537djvi"
+    SQLALCHEMY_DATABASE_URI = 'postgresql://xvnedalyoohnpo:5db0f5db98186e38cd15f8d46396141a152d3795a26bb3931e9b1026a6a8e38b@ec2-54-235-244-185.compute-1.amazonaws.com/d4pn014537djvi'
 
 config = {
     "dev": DevConfig,
