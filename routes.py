@@ -113,7 +113,8 @@ def load_user(user_id):
 @app.route('/')
 @login_required #if user is not logged in go to login page
 def index():
-    return render_template('index.html')
+    campaignlist = Campaign.query.filter_by(userid = current_user.id)
+    return render_template('index.html' , campaignlist = campaignlist)
 
 @app.route('/login')
 def login():

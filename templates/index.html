@@ -25,6 +25,28 @@
                 </div>
         </nav>
 
+        <!-- Campaign Created by user -->
+<div>
+    <div> <h3>Campaigns created</h3></div>
+    <!-- drips already created should be shown -->
+    <table class="table">
+            <thead>
+                    <th>CAMPAIGN ID</th>
+                    <th>TITLE</th>
+                    <th>STAGES</th>
+                    <th>CREATED AT</th>
+            </thead>
+        {% for campaign in campaignlist %}
+            <tr>
+                <td>{{ campaign.campaign_id }}</td>
+                <td>{{ campaign.campaign_title }}</td>
+                <td>{{ campaign.campaign_stage}}</td>
+                <td>{{ campaign.created_at}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
         {%- else -%}
         <a href="{{url_for('login')}}" class="btn btn-primary btn-block" style="padding: 15px 0;">Login</a>
         {%- endif -%}
