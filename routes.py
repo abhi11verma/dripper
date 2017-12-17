@@ -153,7 +153,7 @@ def callback():
         return 'Could not fetch your information.'
 
 
-@app.route('/CreateNewCampaign', methods = ["GET","POST"])
+@app.route('/createNewCampaign', methods = ["GET","POST"])
 def CreateNewCampaign():
     if request.method == "POST":
         # campaign = Campaign(request.form['userid'],request.form['campaign_title'], request.form['campaign_stages'],request.form['email_subj'],request.form['email_body'],request.form['email_id'],request.form['receipent_name'])
