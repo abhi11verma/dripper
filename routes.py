@@ -26,7 +26,7 @@ class Auth:
     AUTH_URI = 'https://accounts.google.com/o/oauth2/auth'
     TOKEN_URI = 'https://accounts.google.com/o/oauth2/token'
     USER_INFO = 'https://www.googleapis.com/userinfo/v2/me'
-    SCOPE = 'https://www.googleapis.com/auth/profile,https://www.googleapis.com/auth/email,https://www.googleapis.com/auth/gmail.compose'
+    SCOPE = ['https://www.googleapis.com/auth/profile','https://www.googleapis.com/auth/email','https://www.googleapis.com/auth/gmail.compose']
 
 
 
