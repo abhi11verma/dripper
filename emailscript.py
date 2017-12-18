@@ -35,7 +35,7 @@ def SendMessage(service, user_id, message): # Send an email message.
 #save details in file
 def get_credentials(userfilename): # Gets valid user credentials from disk.
     filename = userfilename+".json"
-    credential_dir = '/app/.heroku'
+    credential_dir = '/.tmp/gmailApp'
     if not os.path.exists(credential_dir):
         os.makedirs(credential_dir)
     credential_path = os.path.join(credential_dir,filename)
